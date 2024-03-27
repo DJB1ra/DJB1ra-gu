@@ -1,0 +1,92 @@
+Problem 1
+
+a
+ssh alblar@remote11.chalmers.se
+ssh albar@bayes.ita.chalmers.se
+(have setup ssh bayes as a shortcut such that I just need to
+enter my password two times)
+alblar@bayes:~$
+
+b
+alblar@bayes:~/MS-2023$ mkdir assignment1_problem1
+alblar@bayes:~/MS-2023$ ls
+assignment1_problem1  data  datainbackup  test  test2
+
+c
+wget https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.7.5.tar.xz
+
+d
+tar -xf linux-6.7.5.tar.xz
+ls
+linux-6.7.5  linux-6.7.5.tar.xz
+
+e
+du -h linux-6.7.5.tar.xz
+135M    linux-6.7.5.tar.xz
+
+f
+headerfile:
+find linux-6.7.5 -type f -name "*.h" | wc -l
+24160
+
+source file
+find linux-6.7.5 -type f -name "*.c" | wc -l
+33235
+
+g
+find linux-6.7.5 \( -name "*.c" -o -name "*.h" \) -exec wc -l {} + | sort -rn | grep -v 'total$' | head -10 | awk '{print $2}' > longest.txt
+
+linux-6.7.5/drivers/gpu/drm/amd/include/asic_reg/dcn/dcn_3_2_0_sh_mask.h
+linux-6.7.5/drivers/gpu/drm/amd/include/asic_reg/nbio/nbio_7_7_0_sh_mask.h
+linux-6.7.5/drivers/gpu/drm/amd/include/asic_reg/nbio/nbio_7_2_0_sh_mask.h
+linux-6.7.5/drivers/gpu/drm/amd/include/asic_reg/dpcs/dpcs_4_2_3_sh_mask.h
+linux-6.7.5/drivers/gpu/drm/amd/include/asic_reg/nbio/nbio_6_1_sh_mask.h
+linux-6.7.5/drivers/gpu/drm/amd/include/asic_reg/nbio/nbio_2_3_sh_mask.h
+linux-6.7.5/drivers/gpu/drm/amd/include/asic_reg/nbio/nbio_7_0_sh_mask.h
+linux-6.7.5/drivers/gpu/drm/amd/include/asic_reg/dpcs/dpcs_4_2_2_sh_mask.h
+linux-6.7.5/drivers/gpu/drm/amd/include/asic_reg/dpcs/dpcs_4_2_0_sh_mask.h
+linux-6.7.5/drivers/gpu/drm/amd/include/asic_reg/nbio/nbio_4_3_0_sh_mask.h
+
+h
+xargs -a longest.txt sha1sum > longest.sha1sum
+
+6f8c93c30d7bc25e620c1fc6380a49568cfb0576  linux-6.7.5/drivers/gpu/drm/amd/include/asic_reg/dcn/dcn_3_2_0_sh_mask.h
+276d267f30b9dc71421abd277af37e6ab0522400  linux-6.7.5/drivers/gpu/drm/amd/include/asic_reg/nbio/nbio_7_7_0_sh_mask.h
+ba6ca551cc85a64ccb44f4cdff3e551b1b5f2438  linux-6.7.5/drivers/gpu/drm/amd/include/asic_reg/nbio/nbio_7_2_0_sh_mask.h
+bb5070ec4b8de971b8312b430e2baca28160936c  linux-6.7.5/drivers/gpu/drm/amd/include/asic_reg/dpcs/dpcs_4_2_3_sh_mask.h
+81d325cb2ba4a9bbbeb664f09a521480faa8b7b0  linux-6.7.5/drivers/gpu/drm/amd/include/asic_reg/nbio/nbio_6_1_sh_mask.h
+600028fe91aa766e662a005075dda7c0eed681e1  linux-6.7.5/drivers/gpu/drm/amd/include/asic_reg/nbio/nbio_2_3_sh_mask.h
+b05d16c2e959e91ea1e4ed518c02cdde901541cc  linux-6.7.5/drivers/gpu/drm/amd/include/asic_reg/nbio/nbio_7_0_sh_mask.h
+153b0209cd7beee2c1bfe4b60a876de21dae086e  linux-6.7.5/drivers/gpu/drm/amd/include/asic_reg/dpcs/dpcs_4_2_2_sh_mask.h
+9331aeb1d82f0a94c28577f30d4bb81521871d51  linux-6.7.5/drivers/gpu/drm/amd/include/asic_reg/dpcs/dpcs_4_2_0_sh_mask.h
+920629dd5745ef18573f4b6e0a92ac360b81e9f9  linux-6.7.5/drivers/gpu/drm/amd/include/asic_reg/nbio/nbio_4_3_0_sh_mask.h
+
+i
+grep -rl "Linus Torvalds" linux-6.7.5 | wc -l
+571
+
+j
+grep -r -l -E '.*\.c$' linux-6.7.5 | xargs grep -l -E '// SPDX-License-Identifier: .*' | xargs -I {} sh -c 'grep -o -E "// SPDX-License-Identifier: .*" {} | sed "s/\/\/ SPDX-License-Identifier: //" | xargs -I % echo "$(basename {}) %"' > licenses.txt
+
+k
+awk '{print $NF}' licenses.txt | sort | uniq -c | sort -nr | head -n 1
+978 GPL-2.0-only
+
+l
+ssh -l alblar -L 2000:bayes.ita.chalmers.se:22 remote11.chalmers.se
+
+sftp -P 2000 alblar@localhost
+
+cd MS-2023
+
+cd assignment1_problem1
+
+get licenses.txt
+get longest.sha1sum
+get longest.txt
+
+
+
+
+
+
