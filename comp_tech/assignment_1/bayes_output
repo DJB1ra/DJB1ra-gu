@@ -1,0 +1,31 @@
+Model name:                         Intel(R) Xeon(R) Gold 6126 CPU @ 2.60GHz
+CPU freq: cpu MHz		: 3500.000
+Sockets: 2
+Total cores: 24
+Total threads: 48
+Architecture:
+x86_64
+Cache size:
+cache size	: 19712 KB
+cache_alignment	: 64
+L1-3 cache:
+L1d cache:                          768 KiB (24 instances)
+L1i cache:                          768 KiB (24 instances)
+L2 cache:                           24 MiB (24 instances)
+L3 cache:                           38.5 MiB (2 instances)
+System RAM:
+772G
+Number(s), model of GPU and RAM:
+Tesla V100-PCIE-16GB
+16384 MiB
+Filesystem:
+/dev/mapper/vg_data-lv_data         xfs     73T  6.1T   67T   9% /data
+/dev/mapper/vg_data-lv_datainbackup xfs     24T   13T   12T  51% /datainbackup
+Linux kernel version:
+5.15.0-91-generic
+Linux distribution/version:
+Ubuntu 22.04.3
+Python file:
+/opt/local/anaconda3/bin/python3
+Python version:
+Python 3.9.16

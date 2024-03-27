@@ -1,0 +1,33 @@
+Model name:                         AMD EPYC 7451 24-Core Processor
+CPU freq: cpu MHz		: 2871.106
+Sockets: 2
+Total cores: 48
+Total threads: 96
+Architecture:
+x86_64
+Cache size:
+cache size	: 512 KB
+cache_alignment	: 64
+L1-3 cache:
+L1d cache:                          1.5 MiB (48 instances)
+L1i cache:                          3 MiB (48 instances)
+L2 cache:                           24 MiB (48 instances)
+L3 cache:                           128 MiB (16 instances)
+System RAM:
+515G
+Number(s), model of GPU and RAM:
+Tesla V100-PCIE-32GB
+32510 MiB
+Filesystem:
+/dev/mapper/vg_data-lv_data       xfs     30T   80G   29T   1% /data
+129.16.29.97:/datainbackup        nfs4    24T   13T   12T  51% /bayes_datainbackup
+129.16.29.97:/data                nfs4    73T  6.1T   67T   9% /bayes_data
+129.16.29.97:/datainbackup/home   nfs4    24T   13T   12T  51% /home
+Linux kernel version:
+5.15.0-91-generic
+Linux distribution/version:
+Ubuntu 22.04.3
+Python file:
+/opt/local/anaconda3/bin/python3
+Python version:
+Python 3.9.7
