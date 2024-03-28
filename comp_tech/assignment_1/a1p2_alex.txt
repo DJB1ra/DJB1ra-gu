@@ -1,0 +1,31 @@
+#!/bin/bash
+
+
+# CPU information
+echo $(lscpu | grep MHz)
+echo $(lscpu | grep 'Model name')
+echo Number of $(lscpu | grep 'CPU(s):' | awk '!/NUMA/')
+echo $(lscpu | grep 'Core(s) per socket')
+echo $(lscpu | grep 'Thread(s) per core')
+echo $(lscpu | grep Architecture)
+echo
+
+# Cache information
+# cache line length where??
+echo $(lscpu | grep cache)
+echo $(grep MemTotal /proc/meminfo)
+# GPU
+echo $(nvidia-smi --query-gpu=name --format=csv,noheader)
+echo $(nvidia-smi --query-gpu=name --format=csv,noheader | wc -l)
+
+# Filesystems
+echo $(lsblk -o PATH,FSTYPE,MOUNTPOINT /dev/sdb)
+echo $(df -Th | grep data)
+
+# Kernel
+echo Kernel $(uname -r)
+echo cat /etc/os-release | grep PRETTY_NAME
+
+# Python
+echo $(python --version)
+echo $(which python)

@@ -1,0 +1,60 @@
+-- download and make folder
+cd $HOME
+mkdir assignment1_problem1
+cd assignment1_problem1
+curl -O https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.7.5.tar.xz
+
+-- extract and check sizes
+tar -xf linux-6.7.5.tar.xz
+ls -lh -> check for archive size (142MB)
+du -sh linux-6.7.5 (1.7GB)
+
+
+-- find source and header files (count)
+find . -iname "*.h" -type f | wc -l (24174)
+find . -iname "*.c" -type f | wc -l (33238)
+find . -iname "*.[ch] -type f | wc -l (57412)
+
+find . -iname "*.[ch]" -type f | xargs wc -l | sort -nr | grep -v "total" | head -10 > longest.txt
+
+   222893 ./drivers/gpu/drm/amd/include/asic_reg/dcn/dcn_3_2_0_sh_mask.h
+   154426 ./drivers/gpu/drm/amd/include/asic_reg/nbio/nbio_7_7_0_sh_mask.h
+   152483 ./drivers/gpu/drm/amd/include/asic_reg/nbio/nbio_7_2_0_sh_mask.h
+   136141 ./drivers/gpu/drm/amd/include/asic_reg/dpcs/dpcs_4_2_3_sh_mask.h
+   133888 ./drivers/gpu/drm/amd/include/asic_reg/nbio/nbio_6_1_sh_mask.h
+   120339 ./drivers/gpu/drm/amd/include/asic_reg/nbio/nbio_2_3_sh_mask.h
+   118975 ./drivers/gpu/drm/amd/include/asic_reg/nbio/nbio_7_0_sh_mask.h
+   103633 ./drivers/gpu/drm/amd/include/asic_reg/dpcs/dpcs_4_2_2_sh_mask.h
+   103385 ./drivers/gpu/drm/amd/include/asic_reg/dpcs/dpcs_4_2_0_sh_mask.h
+    82050 ./drivers/gpu/drm/amd/include/asic_reg/nbio/nbio_4_3_0_sh_mask.h
+
+-- check sum
+grep -o '\./.*\.[ch]' top10_file_list.txt | xargs sha1sum | awk '{print $1}' > longest.sha1sum
+
+6f8c93c30d7bc25e620c1fc6380a49568cfb0576
+276d267f30b9dc71421abd277af37e6ab0522400
+ba6ca551cc85a64ccb44f4cdff3e551b1b5f2438
+bb5070ec4b8de971b8312b430e2baca28160936c
+81d325cb2ba4a9bbbeb664f09a521480faa8b7b0
+600028fe91aa766e662a005075dda7c0eed681e1
+b05d16c2e959e91ea1e4ed518c02cdde901541cc
+153b0209cd7beee2c1bfe4b60a876de21dae086e
+9331aeb1d82f0a94c28577f30d4bb81521871d51
+920629dd5745ef18573f4b6e0a92ac360b81e9f9
+
+sha1sum --check --ignore missing longest.sha1sum -> ALL OK
+
+-- Linus Torvalds
+grep -Rnw . -e "Linus Torvalds" | wc -l (588)
+
+-- license 
+grep --include=*.c -Rnw . -e "// SPDX-License-Identifier.*" | sort --unique
+
+-- license2
+cut licenses.txt -d ":" -f4 | sort | uniq -c
+
+
+-- download
+copy files to folder
+cp <file> foldername
+scp -r alexwo@remote11.chalmers.se:~/assignment1_problem1/linux-6.7.5/download_folder/ ./Desktop
