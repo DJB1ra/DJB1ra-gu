@@ -7,8 +7,9 @@ import argparse
 from enum import Enum
 from typing import List, Tuple, Callable, Optional
 from itertools import product
-from multiprocessing import Pool
 import time
+from multiprocessing import Pool
+import matplotlib.pyplot as plt
 
 class Suit(Enum):
     """
@@ -107,6 +108,8 @@ class Deck:
         """
         Shuffles the deck
         """
+        
+        
         random.shuffle(self._cards)
         self._current = 0
 
@@ -119,7 +122,7 @@ class Deck:
         return self._cards[self._current-1]
 
 
-    
+
 
 class Decision(Enum):
     """
@@ -324,6 +327,22 @@ def basic_strategy(hand: List[Card], dealer_card: Card)->Decision:
 
 
 
+def play_game(worker_id, chunk_size, seed, n):
+    if seed is None:
+        random.seed()
+    # Set the random seed for each simulation
+    random.seed(seed + worker_id + 1 **3)
+    # Calculate chunk start and chunk end
+    chunk_start = worker_id * chunk_size
+    chunk_end = min(worker_id chunk_start+ 1 * chunk_size, n)) # Ensure chunk end doesn't exceed total simulations
+    print(f"Worker {worker_id}: Assigned simulations {chunk_start} - {chunk_end - 1}")
+    
+    results = [play_blackjack(basic_strategy) for _ in range(chunk_start, chunk_end)]
+    mean_result = np.mean(results)
+    print(f"Worker {worker_id}: {mean_result}")
+    return [mean_result]
+
+
 def simulate(n: int,
                  strategy: strategy_type = basic_strategy,
                  num_workers: int = 1,
@@ -337,23 +356,21 @@ def simulate(n: int,
     - strategy: strategy to use for simulation
     - seed: optional random number seed to make the results reproducible
     """
-    if seed is not None:
-        random.seed(seed)
-        np.random.seed(seed)
+    if seed is None:
+        seed = random.randint(0, 1000000)
 
-    #play_blackjack needs to be serial but for loop can be parallel
-    #one instance of black jack does not influence another
-    results: npt.NDArray[np.float64] = np.zeros(n)
-    for i in range(n):
-        results[i] = play_blackjack(basic_strategy)
+    results = np.zeros(n)
+    with Pool(num_workers) as pool:
+        chunk_size = n // num_workers
+        # Distribute the workload across multiple worker processes
+        chunks = pool.starmap(play_game, [(i, chunk_size, seed, n) for i in range(num_workers)])
+        # Flatten the list of results
+        results = np.concatenate(chunks)
 
-    #serial
-    res: float = results.mean()
-    return res
-
+    return np.mean(results)
 
 if __name__ == '__main__':
-    t1 = time.time() # starting timepoint
+    start = time.time()
     parser = argparse.ArgumentParser(
         prog = 'Blackjack',
         description = 'A very simple Blackjack strategy simulator',
@@ -371,36 +388,25 @@ if __name__ == '__main__':
                             'reproducible')
     
     args = parser.parse_args()
-
+    seed = args.seed
     n = args.n
     num_workers = args.workers
-    seed = args.seed
-
-    #paralellized part
+    
     assert n % num_workers == 0
-    t2 = time.time()
-    with Pool(num_workers) as p:
-        reses = p.map(simulate, [n//num_workers] * num_workers)
+    par_start = time.time() # starting timepoint
+    res = simulate(n, seed=seed, num_workers=num_workers)
+    par_end = time.time() # end timepoint
+    res = np.mean(res)
 
-    res = np.mean(reses)
-    #res = simulate(n, seed=seed)
+    end = time.time()
 
-    t3 = time.time()
+    print(f'Number of simulation: {n}')
+    print(f'Number of workers: {num_workers}')
+    print(f'Win/loss results: {res}')
+    print(f'Total running time: {end-start}')
+    print(f'Parallel running time: {par_end-par_start}')
+    print(f'Parallel fraction: {(par_end-par_start)/(end-start)}')
+    print(f'Sequential running time: {(end-start)-(par_start-par_end)}')
 
-    t4 = time.time() # end timepoint
 
-    tot_time = t4-t1
-    par_frac=(t3-t2)/(tot_time)
-
-    am = 1/((1-par_frac)+(par_frac/num_workers))
-    am_upper = 1/(1-par_frac)
-
-    #print(f'{num_workers},{n},{res},{parStart-parEnd},{end-start}')
-    print('num_workers', num_workers)
-    print('n', n)
-    print('res', res)
-    print('parallel absolute', t3-t2)
-    print('parallel fraction', par_frac)
-    print('serial absolute', (t4-t1) - (t3-t2))
-    print('serial fraction', ((t4-t1) - (t3-t2))/(t4-t1))
-    print('total time', t4-t1)
+    
