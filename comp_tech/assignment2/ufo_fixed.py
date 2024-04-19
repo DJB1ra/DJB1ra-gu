@@ -65,10 +65,9 @@ def process(Q: mp.Queue, R: mp.Queue, A: mp.Array)->None:
          and ends with a None
     - A: an n*2 array of latitude longitude pairs
     """
-    # TODO: change this to use np.frombuffer and get_obj() of the array to
-    # create a shallow NumPy view into the underlying shared memory
+
     X: npt.NDArray[np.float64] = np.frombuffer(A.get_obj(), dtype=np.float64).reshape((-1,2))
-    print(A)
+
     while True:
         q = Q.get()
         if q is None:
@@ -93,23 +92,23 @@ if __name__ == '__main__':
     parser.add_argument('-w', '--workers', type = int, default = 1,
                             metavar = 'W',
                             help = 'Number of workers (processes)')
+    parser.add_argument('-q', '--queries', type = str, default = None,
+                            help = 'Read queries from this file (default: stdin')
 
     args = parser.parse_args()
+    t1 = time.time()
 
     # read data
     df = pd.read_csv(args.filename)
-    print(df.head())
     n: int = df.shape[0]
     locs: List[str] = df['location'].tolist()
     print('Data read from file')
 
-    # TODO: add here memory allocation in the form of a multiprocessing array
     # Memory allocation in the form of a multiprocessing array
     # Allocate shared memory
     A = mp.Array('d', n * 2)
 
 
-    # TODO: for easier processing, we create a NumPy array to access the
     # underlying memory; change this to point to the memory in the
     # multiprocessing array (using np.frombuffer)
     
@@ -123,31 +122,27 @@ if __name__ == '__main__':
     print('Data to rad')
 
     # this queue contains items to be consumed
-    # TODO: change into multiprocessing queue
     Q = mp.Queue()
 
     # this queue contains the results
-    # TODO: change into multiprocessing queue
     R = mp.Queue()
 
-    # TODO: add creation of workers (processes)
 
-    t3 = time.time()  
+    t2 = time.time()  
     workers = [Process(target=process, args=(Q, R, A)) for _ in range(args.workers)]
-    print(workers)
 
     for w in workers:
         w.start()
 
-    # TODO: change to work with multiple processes
-    #Q.put(None) # mark the end of queue
-
     i = 0
-    for line in sys.stdin.readlines():
-        q = np.array(list(map(float, line.split())))
-        Q.put((i, q[0] * (np.pi/180), q[1]* (np.pi/180)))
-        print(f"Enqueued item {i}: {q}")
+    with open(args.queries,'r') if args.queries is not None else \
+      sys.stdin as f:
+      for line in f:
+        q: npt.NDArray[np.float64] = np.array(list(map(float,line.split()))) \
+          * (np.pi/180)
+        Q.put((i,q[0],q[1]))
         i += 1
+    t3 = time.time()
         
     for _ in range(args.workers):
         Q.put(None)
@@ -156,8 +151,22 @@ if __name__ == '__main__':
 
     for w in workers:
         w.join()
+    t4 = time.time()
    
     # sort by the index so locations are printed in correct order
     res.sort()
     for (_,i) in res:
         print(locs[i])
+    t5 = time.time()
+
+    tot_time = t5 - t1
+    par_time = t4- t2
+    seq_time = tot_time - par_time
+
+
+    print('workers', args.workers)
+    print('total time',tot_time)
+    print('parallel time',par_time)
+    print('sequential time',seq_time)
+    print('parallel proportion',par_time/tot_time)
+    print('Sequential proportion',seq_time/tot_time)
