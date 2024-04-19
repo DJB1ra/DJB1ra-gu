@@ -1,0 +1,89 @@
+queries_verylarge
+
+workers 1
+total time 63.770472049713135
+parallel time 63.68037223815918
+sequential time 0.09009981155395508
+parallel proportion 0.9985871233400355
+Sequential proportion 0.0014128766599644511
+
+----------------------
+
+workers 2
+total time 44.92069673538208
+parallel time 44.830562353134155
+sequential time 0.0901343822479248
+parallel proportion 0.9979934776439714
+Sequential proportion 0.0020065223560285935
+
+
+----------------------
+
+workers 4
+total time 22.823362112045288
+parallel time 22.73331308364868
+sequential time 0.09004902839660645
+parallel proportion 0.9960545239586291
+Sequential proportion 0.0039454760413708745
+
+
+----------------------
+
+workers 8
+total time 11.457622289657593
+parallel time 11.366667032241821
+sequential time 0.09095525741577148
+parallel proportion 0.9920615940099654
+Sequential proportion 0.007938405990034574
+
+
+----------------------
+
+workers 16
+total time 6.166938543319702
+parallel time 6.073186159133911
+sequential time 0.09375238418579102
+parallel proportion 0.9847975809184368
+Sequential proportion 0.015202419081563202
+
+-----------------------
+
+workers 32
+total time 3.3593316078186035
+parallel time 3.2681033611297607
+sequential time 0.09122824668884277
+parallel proportion 0.9728433339309178
+Sequential proportion 0.027156666069082184
+
+-------------------------
+
+workers 40
+total time 2.8160903453826904
+parallel time 2.7216014862060547
+sequential time 0.09448885917663574
+parallel proportion 0.9664467941053236
+Sequential proportion 0.033553205894676384
+
+--------------------------
+
+workers 50
+total time 2.427855968475342
+parallel time 2.335402488708496
+sequential time 0.0924534797668457
+parallel proportion 0.9619197015937873
+Sequential proportion 0.03808029840621276
+
+
+----------------------------
+
+workers 64
+total time 2.0417473316192627
+parallel time 1.94974684715271
+sequential time 0.09200048446655273
+parallel proportion 0.9549403184998463
+Sequential proportion 0.04505968150015373
+
+
+
+
+
