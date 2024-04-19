@@ -1,4 +1,6 @@
 queries_verylarge
+ /opt/local/bin/run_job.sh -p cpu-shannon --cpus-per-task 64 -s ufo_fixed.py -- ufo.csv -q queries_verylarge.txt -w 64
+
 
 workers 1
 total time 63.770472049713135
