@@ -1,0 +1,75 @@
+n=1000000
+/opt/local/bin/run_job.sh -p cpu-markov --cpus-per-task 40 -s blackjack_alex.py -- 1000000  --seed 69 -w 40
+
+
+------------------------
+Number of simulation: 1000000
+Number of workers: 1
+Win/loss results: -0.022205
+Total running time: 71.08168148994446
+Parallel running time: 71.06996083259583
+Parallel fraction: 0.9998351100156474
+Sequential running time: 0.011720657348632812
+--------------------------
+Number of workers: 2
+Win/loss results: -0.022223
+Total running time: 59.81185746192932
+Parallel running time: 59.798534631729126
+Parallel fraction: 0.99977725436451
+Sequential running time: 0.013322830200195312
+--------------------------
+Number of workers: 4
+Win/loss results: -0.0221075
+Total running time: 29.96782159805298
+Parallel running time: 29.952446460723877
+Parallel fraction: 0.9994869451128172
+Sequential running time: 0.015375137329101562
+--------------------------
+Number of simulation: 1000000
+Number of workers: 8
+Win/loss results: -0.0206105
+Total running time: 14.867719650268555
+Parallel running time: 14.844865798950195
+Parallel fraction: 0.9984628543007302
+Sequential running time: 0.022853851318359375
+--------------------------
+Number of simulation: 1000000
+Number of workers: 16
+Win/loss results: -0.0220075
+Total running time: 9.091083288192749
+Parallel running time: 9.051558017730713
+Parallel fraction: 0.9956523035584361
+Sequential running time: 0.03952527046203613
+--------------------------
+Number of simulation: 1000000
+Number of workers: 32
+Win/loss results: -0.0198395
+Total running time: 4.4117724895477295
+Parallel running time: 4.3613975048065186
+Parallel fraction: 0.9885816902706207
+Sequential running time: 0.05037498474121094
+--------------------------
+Number of simulation: 1000000
+Number of workers: 40
+Win/loss results: -0.020194499999999997
+Total running time: 3.668994903564453
+Parallel running time: 3.6086201667785645
+Parallel fraction: 0.9835446114337105
+Sequential running time: 0.06037473678588867
+---------------------------
+Number of simulation: 1000000
+Number of workers: 50
+Win/loss results: -0.020828999999999997
+Total running time: 2.669217109680176
+Parallel running time: 2.596949577331543
+Parallel fraction: 0.972925569791027
+Sequential running time: 0.07226753234863281
+----------------------------
+Number of simulation: 1000000
+Number of workers: 64
+Win/loss results: -0.0214585
+Total running time: 2.4491913318634033
+Parallel running time: 2.3571126461029053
+Parallel fraction: 0.9624044538445911
+Sequential running time: 0.09207868576049805
+
