@@ -1,0 +1,93 @@
+A: (Sanity test)
+PREFIX : <http://ADB-Assignment3/>
+select ?ta ?tn ?tp ?td
+where {
+	?ta :teacherName ?tn.
+    ?ta :tDepartment ?tp.
+    ?ta :tDivision ?td
+
+}
+
+TEST OK!
+
+PREFIX : <http://ADB-Assignment3/> (for all queries)
+
+1: Find the name, director and department of all programmes.
+
+select ?prg ?pn ?pd ?ptd
+where {
+	?prg :programName ?pn.
+    ?prg :director ?pd.
+	?prg :pDepartment ?ptd
+
+}
+
+2: Find the names of all students who worked as teaching assistants in courses given by the D3-2 division in study period 2 in academic year 2023/2024.
+
+PREFIX : <http://ADB-Assignment3/>
+
+SELECT DISTINCT ?taURI ?teacherName
+
+WHERE {
+    # get Teacher
+    ?taURI :teacherID ?teacherID.
+    ?taURI :teacherName ?teacherName.
+    # get instances they reported hours
+    ?hoursTeacherURI :hoursTeacher ?teacherID.
+    ?hoursTeacherURI :hoursCourseInstance ?hCourseInstance.
+    # get course
+    ?CourseInstanceURI :instanceID ?hCourseInstance.
+    ?CourseInstanceURI :ciCourseCode ?ciCourseCode.
+    ?CourseInstanceURI :cAcademicYear "2023-2024".
+    ?CourseInstanceURI :studyPeriod "2.0".
+    # get course
+    ?CourseURI :courseCode ?ciCourseCode.
+ 	?CourseURI :cDivision "D3-2".
+    # filter only TAs and no STs
+    FILTER regex(?teacherName, "TA.*","i")
+
+}
+
+3: Find all teachers who are assigned more than 120 hours in course 1015 in study period 1 in academic year 2018/2019.
+PREFIX : <http://ADB-Assignment3/>
+
+SELECT DISTINCT ?taURI ?teacherName
+
+WHERE {
+    # get Teacher
+    ?taURI :teacherID ?teacherID.
+    ?taURI :teacherName ?teacherName.
+    # get instances they reported hours
+    ?hoursTeacherURI :hoursTeacher ?teacherID.
+    ?hoursTeacherURI :hoursCourseInstance ?hCourseInstance.
+    ?hoursTeacherURI :aHours ?aHours.
+    
+    # get courseInstance
+    ?CourseInstanceURI :instanceID ?hCourseInstance.
+    ?CourseInstanceURI :ciCourseCode ?ciCourseCode.
+    
+    #filter 
+    ?CourseInstanceURI :cAcademicYear "2018-2019".
+    ?CourseInstanceURI :studyPeriod "1.0".
+    ?CourseInstanceURI :ciCourseCode "1015".
+    FILTER(?aHours > 120)
+
+}
+
+4:
+TODOOOO: exclude I-911 
+PREFIX : <http://ADB-Assignment3/>
+
+SELECT DISTINCT ?studentID ?reg
+
+WHERE {
+	?studentURI :studentID ?studentID.
+	?studentURI :studentName ?studentName.
+	
+	?registeredURI :registrationsStudents ?studentID.
+    ?registeredURI :registrationsCourseInstance "I-910".
+    
+    
+
+}
+
