@@ -94,18 +94,11 @@ WHERE {
 5: Find all programmes along with the total number of owned courses. List the results in descending order of number of owned courses.
 
 PREFIX : <http://ADB-Assignment3/>
-PREFIX : <http://ADB-Assignment3/>
-
-SELECT ?programCode (COUNT(?programCode) as ?count) WHERE {
-    {select DISTINCT ?programCode ?courseCode where 
-        {
-            ?programURI :piProgramCode ?programCode.
-            ?programURI :piCourse ?courseCode.
-        }
-    }.
-}
-
-GROUP BY ?programCode
+select ?cprog (COUNT(?cc) as ?owendCoursesCount) where {
+    ?c :courseCode ?cc.
+    ?c :cProgram ?cprog.
+} 
+GROUP BY ?cprog
 ORDER BY DESC(?count)
 
 
