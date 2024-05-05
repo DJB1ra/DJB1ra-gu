@@ -74,8 +74,9 @@ WHERE {
 
 }
 
-4:
-TODOOOO: exclude I-911 
+4: Find all students registered for course instance I-910 that were not registered for course instance I-911.
+Assumption: "Not registered" means there is no data to I-911
+
 PREFIX : <http://ADB-Assignment3/>
 
 SELECT DISTINCT ?studentID ?reg
@@ -86,8 +87,49 @@ WHERE {
 	
 	?registeredURI :registrationsStudents ?studentID.
     ?registeredURI :registrationsCourseInstance "I-910".
-    
-    
+    FILTER NOT EXISTS{?registeredURI :registrationsCourseInstance "I-911".}
 
 }
 
+5: Find all programmes along with the total number of owned courses. List the results in descending order of number of owned courses.
+
+PREFIX : <http://ADB-Assignment3/>
+PREFIX : <http://ADB-Assignment3/>
+
+SELECT ?programCode (COUNT(?programCode) as ?count) WHERE {
+    {select DISTINCT ?programCode ?courseCode where 
+        {
+            ?programURI :piProgramCode ?programCode.
+            ?programURI :piCourse ?courseCode.
+        }
+    }.
+}
+
+GROUP BY ?programCode
+ORDER BY DESC(?count)
+
+
+6: Find the number of: 
+a: senior teachers
+PREFIX : <http://ADB-Assignment3/>
+select (COUNT(?teacherURI) as ?teacherCount) where {
+    ?teacherURI :teacherID ?teacherID.
+    ?teacherURI :teacherName ?teacherName.
+    FILTER regex(?teacherName, "Teac.*","i")
+} 
+b: all people
+PREFIX : <http://ADB-Assignment3/>
+select (COUNT(?ID) as ?pplCount) where {
+    {
+        # teacher
+        ?teacherURI :teacherID ?ID.
+        ?teacherURI :teacherName ?teacherName.
+        FILTER regex(?teacherName, "Teac.*","i")
+        #OPTIONAL{?studentURI :studentID ?studentID}
+    }
+    UNION
+    {
+        # students
+        ?studenURI :studentID ?ID.
+    }
+} 
