@@ -99,7 +99,7 @@ select ?cprog (COUNT(?cc) as ?owendCoursesCount) where {
     ?c :cProgram ?cprog.
 } 
 GROUP BY ?cprog
-ORDER BY DESC(?count)
+ORDER BY DESC(?owendCoursesCount)
 
 
 6: Find the number of: 
