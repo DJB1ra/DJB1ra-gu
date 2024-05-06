@@ -1,0 +1,19 @@
+Most login attempts by: root, 323827 times
+Most successful login attempts by: curi, 63 times
+Most unsuccessful login attempts by: root, 323827 times
+User accounts with the highest success rate of logins: [(('jmzhu', 1), 1.0), (('yuewang', 1), 1.0), (('fztu', 1), 1.0), (('xxchen', 1), 1.0), (('tzhao', 1), 1.0)]
+Top 3 ip addresses_ [('59.63.188.30', 86294), ('58.242.83.25', 43147), ('218.65.30.30', 25102)]
+Top 10 invalid user attempts:
+User: admin, count: 8073
+User: test, count: 543
+User: oracle, count: 489
+User: support, count: 486
+User: user, count: 369
+User: pi, count: 352
+User: nagios, count: 296
+User: guest, count: 259
+User: postgres, count: 216
+User: ubnt, count: 214
+Day with the most login activity: (('Jan', '4'), 77409)
+Day with the least login activity: (('Dec', '23'), 627)
+Time taken: 17.897407054901123
