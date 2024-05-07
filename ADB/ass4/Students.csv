@@ -1,4 +1,4 @@
-Student name;Student id;Programme;Year;Graduated;Indvidual2;;;
+StudentName;StudentId;Programme;Year;Graduated;Indvidual2;;;
 Student 1;19970308-0000;10054;2017;FALSE;S_19970308-0000;;;
 Student 2;19960213-0001;10011;2016;FALSE;S_19960213-0001;;;
 Student 3;19960328-0002;10013;2019;FALSE;S_19960328-0002;;;
