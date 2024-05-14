@@ -1,4 +1,4 @@
-CourseCode,TeacherId,ReportedHours,AssignedHours,CompKey
+InstanceId,TeacherId,ReportedHours,AssignedHours,CompKey
 I-1,19620522-0023,227.0,240.0,TEAS_I-1_19620522-0023
 I-1,19790708-0041,115.0,100.0,TEAS_I-1_19790708-0041
 I-1,19930221-0139,157.0,140.0,TEAS_I-1_19930221-0139
